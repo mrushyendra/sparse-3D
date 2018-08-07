@@ -41,15 +41,18 @@ void mouseCallback(int event, int x, int y, int flags, void* param) {
     }
     }
 }
+
 float euclideanDist(Point2f& p, Point2f& q) {
     Point2f diff = p - q;
     return cv::sqrt(diff.x*diff.x + diff.y*diff.y);
 }
+
 struct mouseCallback2Params {
     vector<Point3f> points3D;
     vector<Point2f> points2D;
     int index;
 };
+
 void mouseCallback2(int event, int x, int y, int flags, void* param) {
     mouseCallback2Params* mp = (mouseCallback2Params*) param;
     switch (event) {
@@ -75,7 +78,6 @@ int main(int argc, char** argv) {
     Mat intrinsics1, intrinsics2, distCoeffs1, distCoeffs2, xi1, xi2;
     Size imageSize = Size(1280, 960);
     FileStorage file1("../data/180degreeCam3/180degreeCamera3Params1.xml", FileStorage::READ);
-    //FileStorage file1("../data/180degreeCamera1Params8.xml", FileStorage::READ);
     file1["intrinsic"] >> intrinsics1;
     file1["intrinsic"] >> intrinsics2;
     file1["distCoeffs"] >> distCoeffs1;
@@ -97,7 +99,7 @@ int main(int argc, char** argv) {
 
     //build list of objects points for the chessboard in the image (0,0,0  0,0,1  0,0,2 etc.)
     for (int j = 0; j < numSquares; ++j) {
-        singleObjectPts.push_back(Point3f(j%numCornersHor, (float)(0.92857*(j / numCornersHor)), 0.0f));
+        singleObjectPts.push_back(Point3f(j%numCornersHor, (float)(j / numCornersHor), 0.0f));
     }
 
     //build up list of image points for the 2 boards
